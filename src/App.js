@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import GenericContainer from "./UI/GenericContainer";
+import FormUser from "./Components/User/FormUser";
+import ContainerUsers from "./Components/User/ContainerUsers";
+import { Container } from "react-bootstrap";
 
 function App() {
+  const [userData, setUserData] = useState([]);
+
+  const onAddNewUserHandler = (newUserData) => {
+    setUserData((prevUserData) => {
+      return [newUserData, ...prevUserData];
+    });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className="d-grid gap-5 p-4">
+      <GenericContainer>
+        <FormUser onAddNewUser={onAddNewUserHandler} />
+      </GenericContainer>
+
+      {userData.length > 0 && (
+        <GenericContainer>
+          <ContainerUsers users={userData} />
+        </GenericContainer>
+      )}
+    </Container>
   );
 }
 
